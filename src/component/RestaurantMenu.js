@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { IMG_CDN_URL, RESTAURANT_TYPE_KEY, MENU_ITEM_TYPE_KEY } from "../../config";
+import { useDispatch } from "react-redux";
+import { addItems } from "./CartSlice";
 
 const RestaurantMenu = ()=>{
     const {id} = useParams();
     const [restaurantMenuData,setRestaurantMenuData] = useState(null);
     const [menuItems,setMenuItems] = useState([]);
+
+    const dispatch = useDispatch();
 
     useEffect(()=>{
         getRestaurantMenu();
@@ -33,6 +37,9 @@ const RestaurantMenu = ()=>{
             console.log(error)
         }
     }
+    const handleAddCart=(items)=>{
+        dispatch(addItems(items))
+    }
     return(
         <div className="menu-list-items">
             <div>
@@ -44,9 +51,10 @@ const RestaurantMenu = ()=>{
                     menuItems.map((items)=>{
                         return(
                             <>
-                                <div key={items.id}>
-                                    <h1>{items.name}</h1>
-                                    <h2>{items.price}</h2>
+                                <div key={items.id} className="p-2 bg-slate-300">
+                                    <h3>Item :  {items.name}</h3>
+                                    <button onClick={()=>handleAddCart(items)} style={{backgroundColor:"lightGreen"}} className="m-2 p-2 cursor-pointer">Add Item</button>
+                                    {items.price ? <h4>Price : {items.price}</h4>:<></>}
                                 </div>
                             </>
                         )

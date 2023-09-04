@@ -1,6 +1,7 @@
 import Logo from "../assests/images/logo.png";
 import { Link } from "react-router-dom";
 import useOnline from "../utils/useOnline";
+import { useSelector } from "react-redux";
 
 export const Title = ()=>{
     return(
@@ -14,6 +15,9 @@ export const Title = ()=>{
 }
 const Header = ()=>{
     const isOnline = useOnline();
+     
+    const cartItems = useSelector((store)=>store.cart.items);
+
     return(
         <div className="header">
             <Title/>
@@ -32,7 +36,7 @@ const Header = ()=>{
                         <Link to="/contact">Contact</Link>
                     </li>
                     <li>
-                        <Link to="/">Cart</Link>
+                        <Link to="/">Cart {cartItems.length} items</Link>
                     </li>
                     <li>
                         <Link to="/instamart">Instamart</Link>
